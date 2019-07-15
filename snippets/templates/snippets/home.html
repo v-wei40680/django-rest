@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>home</title>{% endblock %}
+
+{% block content %}
+<h1>home</h1>
+
+<div id="app">
+    <ul v-for='s in snippets'>
+        <li v-text='s.code'></li>
+    </ul>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            snippets: []
+        },
+        created () {
+            var url = 'http://127.0.0.1:8000/snippets/'
+            fetch(url).then(response => response.json())
+            .then(data => {
+                this.snippets = data.results;
+                console.log(data)
+                })
+            .catch(e => console.log("Oops, error", e))
+        }
+    })
+</script>
+{% endblock %}
